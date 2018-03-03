@@ -130,3 +130,5 @@ Images of my ESP8266 NodeMCU GPIO Extender Shield.
 ![](GPIO-Extender-Plus-06.png)
 
 Watch the GPIO Extender test Video on YouTube.
+
+[![GPIO Extender test Video](https://img.youtube.com/vi/aFkxxWDnNWo/0.jpg)](https://www.youtube.com/watch?v=88Tg8VSa8cg)
