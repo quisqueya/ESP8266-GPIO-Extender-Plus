@@ -2,6 +2,7 @@
 
 bool LatchCD4099BDriver::enableSerialMonitor=false;
 
+LatchCD4099BDriver* LatchCD4099BDriver::pLatchCD4099BDriver = NULL;
 
 LatchCD4099BDriver::LatchCD4099BDriver(bool twoLatches)
 {
@@ -14,9 +15,21 @@ LatchCD4099BDriver::LatchCD4099BDriver(bool twoLatches)
 }
 LatchCD4099BDriver::~LatchCD4099BDriver()
 {
-  
+    if(pLatchCD4099BDriver!=NULL)
+    {
+        delete pLatchCD4099BDriver;   
+    }
+    pLatchCD4099BDriver=NULL;  
 }
-
+LatchCD4099BDriver* LatchCD4099BDriver::getLatchCD4099BDriver()
+{
+    if(pLatchCD4099BDriver==NULL)
+    {
+       pLatchCD4099BDriver=new LatchCD4099BDriver(true);
+       pLatchCD4099BDriver->begin();
+    } 
+    return pLatchCD4099BDriver;
+}
 
 void LatchCD4099BDriver::begin()
 {

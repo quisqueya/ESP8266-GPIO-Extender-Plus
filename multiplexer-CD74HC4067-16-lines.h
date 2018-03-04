@@ -6,6 +6,8 @@
 
 class MultiAnalogDigitalRead{
 private:
+
+    static MultiAnalogDigitalRead* pGlobalMultiRead;
     
     bool initialized;
     void setAddress(int pinNumber);
@@ -25,6 +27,9 @@ public:
     int readAnalog(int pin);
     
     // static public
+    // recommended to call this function to get a pointer
+    // this way we can use only one object in other classes
+    static MultiAnalogDigitalRead* getMultiAnalogDigitalRead(); 
     static bool enableSerialMonitor;
 };
  

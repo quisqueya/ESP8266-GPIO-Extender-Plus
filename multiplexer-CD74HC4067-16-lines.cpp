@@ -2,6 +2,7 @@
 
 bool MultiAnalogDigitalRead::enableSerialMonitor=false;
 
+MultiAnalogDigitalRead* MultiAnalogDigitalRead::pGlobalMultiRead=NULL;
 
 MultiAnalogDigitalRead::MultiAnalogDigitalRead()
 {
@@ -9,9 +10,21 @@ MultiAnalogDigitalRead::MultiAnalogDigitalRead()
 }
 MultiAnalogDigitalRead::~MultiAnalogDigitalRead()
 {
-  
+  if(pGlobalMultiRead!=NULL)
+  {
+         delete pGlobalMultiRead;
+  }
+  pGlobalMultiRead=NULL;  
 }
-
+MultiAnalogDigitalRead* MultiAnalogDigitalRead::getMultiAnalogDigitalRead()
+{
+    if(pGlobalMultiRead==NULL)
+    {
+       pGlobalMultiRead=new MultiAnalogDigitalRead();
+       pGlobalMultiRead->begin();
+    } 
+    return pGlobalMultiRead;
+}
 
 void MultiAnalogDigitalRead::begin()
 {

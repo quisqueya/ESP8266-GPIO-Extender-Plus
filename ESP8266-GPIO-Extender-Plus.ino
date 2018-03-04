@@ -18,7 +18,7 @@
 // *** D2 ==> address pins S1 select line 1
 // *** D4 ==> address pins S2 select line 2
 // *** D0 ==> address pins S3 select line 3
-MultiAnalogDigitalRead multiread;
+MultiAnalogDigitalRead* pMultiread=MultiAnalogDigitalRead::getMultiAnalogDigitalRead();
 
 // *** remember that latch driver uses ****
 // *** D5 ==> write disable pin for first latch
@@ -28,10 +28,7 @@ MultiAnalogDigitalRead multiread;
 // *** D1 ==> address pins A0 for both latches
 // *** D2 ==> address pins A1 for both latches
 // *** D4 ==> address pins A2 for both latches
-
-LatchCD4099BDriver latch(true); 
-//  true -> indicates we are using two latches to make it 16 digital output pins.
-//  false -> indicates we are using only one latch to make it 8 digital output pins.
+LatchCD4099BDriver* pLatch=LatchCD4099BDriver::getLatchCD4099BDriver(); // this function assume it 16 digital output pins.
 
 void setup() {
   // put your setup code here, to run once:
@@ -41,19 +38,17 @@ void setup() {
          ; // wait for serial port to connect. Needed for native USB port only
      }
      Serial.println("");
+     
+     pMultiread->begin();  
 
-  //  multiread.enableSerialMonitor =true; 
-    multiread.begin();  
-
-  //  latch.enableSerialMonitor =true; 
-    latch.begin();
+     pLatch->begin();
     
-  //turn of digital outputs off
-   for(int i=0; i<16;i++)
-  {
-      latch.setPin(i, LOW);
-      delay(1000);
-  }
+    //turn of digital outputs off
+    for(int i=0; i<16;i++)
+    {
+        pLatch->setPin(i, LOW);
+        delay(1000);
+    }
 }
 int pinState=HIGH;
 int oldValue=LOW;
@@ -62,7 +57,7 @@ void loop() {
 /*
    //digital outputs test
    delay(1000);
-   latch.setPin(outPin, pinState);
+   pLatch->setPin(outPin, pinState);
    outPin++;
    if(outPin==16)
    {
@@ -83,11 +78,11 @@ void loop() {
  int val=0;
  for(int i=0; i<16;i++)
  {
-     val=multiread.readDigital(i);
+     val=pMultiread->readDigital(i);
      delay(2);
      if(val==HIGH)
      {
-         latch.setPin(i, pinState);
+         pLatch->setPin(i, pinState);
          if(i==7)
          {
              if(pinState==HIGH)
@@ -108,19 +103,18 @@ void loop() {
  int oldval[16]={LOW,LOW,LOW,LOW,LOW,LOW,LOW,LOW,LOW,LOW,LOW,LOW,LOW,LOW,LOW,LOW};
  for(int i=0; i<8;i++)
  {
-    latch.setPin(i, LOW);
+    pLatch->setPin(i, LOW);
  }   
  delay(2000); 
  for(int i=0; i<16;i++)
  {
-     val=multiread.readAnalog(i);
+     val=pMultiread->readAnalog(i);
      delay(10);
      if(val < 900)
      {
           oldval[i]=HIGH;
-          latch.setPin(i, HIGH);
+          pLatch->setPin(i, HIGH);
      }    
  }
  delay(2000);  
-
 }

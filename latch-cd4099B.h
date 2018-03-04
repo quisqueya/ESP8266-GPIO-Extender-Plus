@@ -10,7 +10,9 @@ class LatchCD4099BDriver{
 private:
     int numberOfLatches;
     bool initialized;
-       
+
+    static LatchCD4099BDriver* pLatchCD4099BDriver;
+    
     const int writeDisableLatch0 = D5; // write disable pin for first latch
     const int writeDisableLatch1 = D6; // write disable pin for second latch
 
@@ -29,6 +31,7 @@ public:
     void reset();
     
     // static public
+    static LatchCD4099BDriver* getLatchCD4099BDriver(); 
     static bool enableSerialMonitor;
 };
  
